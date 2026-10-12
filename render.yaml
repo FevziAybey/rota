@@ -1,6 +1,8 @@
 databases:
   - name: rota-db
     plan: free
+    region: frankfurt
+    postgresMajorVersion: "16"
 
 services:
   - type: web
@@ -8,7 +10,9 @@ services:
     runtime: node
     plan: free
     region: frankfurt
-    buildCommand: npm install && npm run wordbank:build && npm run build
+    repo: https://github.com/FevziAybey/rota
+    branch: main
+    buildCommand: npm install && npm run build
     startCommand: npm start
     healthCheckPath: /api/health
     envVars:
@@ -18,13 +22,14 @@ services:
         value: "20"
       - key: JWT_SECRET
         generateValue: true
-
       - key: CRON_SECRET
         generateValue: true
       - key: DATABASE_URL
         fromDatabase:
           name: rota-db
           property: connectionString
+      - key: DATA_DIR
+        value: /opt/render/project/src/server/data
       - key: SMTP_HOST
         sync: false
       - key: SMTP_PORT
@@ -38,30 +43,13 @@ services:
       - key: MAIL_FROM
         sync: false
 
-  - type: cron
-    name: rota-monthly-report
-    runtime: node
-    plan: free
-    region: frankfurt
-    schedule: "0 8 1 * *"
-    buildCommand: npm install
-    startCommand: npm run monthly-report
-    envVars:
-      - key: NODE_VERSION
-        value: "20"
-      - key: DATABASE_URL
-        fromDatabase:
-          name: rota-db
-          property: connectionString
-      - key: SMTP_HOST
-        sync: false
-      - key: SMTP_PORT
-        value: "587"
-      - key: SMTP_SECURE
-        value: "false"
-      - key: SMTP_USER
-        sync: false
-      - key: SMTP_PASS
-        sync: false
-      - key: MAIL_FROM
-        sync: false
+  # Free planda cron yok; aylık rapor için Ayarlar'dan test maili veya
+  # ücretli planda aşağıdaki bloğu açıp Blueprint sync yap.
+  # - type: cron
+  #   name: rota-monthly-report
+  #   runtime: node
+  #   plan: starter
+  #   region: frankfurt
+  #   schedule: "0 8 1 * *"
+  #   buildCommand: npm install
+  #   startCommand: npm run monthly-report

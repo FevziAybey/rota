@@ -12,7 +12,7 @@ services:
     region: frankfurt
     repo: https://github.com/FevziAybey/rota
     branch: main
-    buildCommand: npm install && npm run build
+    buildCommand: npm install --include=dev && npm run build
     startCommand: npm start
     healthCheckPath: /api/health
     envVars:

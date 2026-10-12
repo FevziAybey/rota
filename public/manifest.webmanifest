@@ -1,0 +1,18 @@
+{
+  "name": "Rota",
+  "short_name": "Rota",
+  "description": "Kişisel İngilizce ve hedef takip",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#0b1412",
+  "theme_color": "#0b1412",
+  "lang": "tr",
+  "icons": [
+    {
+      "src": "/favicon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ]
+}
